@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://bootswatch.com/5/minty/bootstrap.css">
+<title>Al-Amin's Chat Application</title>
+<style>
+body {
+font-family: Arial, sans-serif;
+margin: 0;
+padding: 0;
+background-color: #15567c;
+}
+
+.input-container {
+position: fixed;
+bottom: 0;
+left: 0;
+width: 100%;
+padding: 10px;
+background-color: #15567c;
+box-shadow: 0 -3px 4px rgba(0, 0, 0, 0);
+z-index: 90;
+}
+
+
+.container {
+max-width: 100%;
+margin: 20px auto;
+padding: 20px;
+background-color: #15567c;
+border-radius: 10px;
+box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.message-container {
+margin-bottom: 10px;
+overflow: hidden;
+}
+
+.message {
+max-width: 70%;
+padding: 10px;
+border-radius: 5px;
+clear: both;
+margin-bottom: 10px;
+}
+
+.my-message {
+float: right;
+border-radius: 20px;
+background-color: #4CAF50;
+color: white;
+}
+
+.other-message {
+float: left;
+border-radius: 20px;
+background-color: #2196F3;
+color: white;
+}
+
+.message-content {
+margin: 5px;
+}
+
+.time {
+color: #777;
+font-size: 12px;
+text-align: right;
+margin-top: 5px;
+}
+
+
+input[type=text] {
+width: 90%;
+padding: 10px;
+border: none;
+border-radius: 20px;
+background-color: #f1f1f1;
+box-sizing: border-box;
+margin-bottom: 5px;
+outline: none;
+font-size: 14px;
+}
+
+input[type=submit] {
+width: 10%;
+padding: 10px;
+border-radius: 20px;
+border-color: rgb(230, 224, 224);
+background-color: #292e2c;
+color: white;
+cursor: pointer;
+}
+
+input[type=submit]:hover {
+background-color: #1321e2;
+}
+</style>
+</head>
+<body>
+
+    </div><center><h2 class="text-dark" >Room ID: {{room}}</h2></center></div>
+<div class="container">
+<div id="display"></div>
+<div class="input-container">
+<form id="post-form">
+{% csrf_token %}
+<input type="hidden" name="username" id="username" value="{{username}}">
+<input type="hidden" name="room_id" id="room_id" value="{{room_details.id}}">
+<input type="text" name="message" id="message" placeholder="Enter your message...">
+<input type="submit" value="Send">
+</form>
+</div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+<script>
+$(document).ready(function () {
+setInterval(function () {
+$.ajax({
+type: 'GET',
+url: "/getMessages/{{room}}/",
+success: function (response) {
+console.log(response);
+$("#display").empty();
+for (var key in response.messages) {
+    var message = response.messages[key];
+var date = new Date(message.date);
+var messageClass = message.user === "{{username}}" ? 'my-message' : 'other-message';
+var messageContent = message.user === "{{username}}" ? '' : '<b>' + message.user + '</b>';
+messageContent += '<p>' + message.value + '</p>';
+var sendTime = date.toLocaleTimeString('en-BD', { hour: 'numeric', minute: 'numeric', hour12: true });
+
+var messageHtml = '<div class="message-container">' +
+    '<div class="message ' + messageClass + '">' +
+    '<div class="message-content">' +
+    messageContent +
+    '<span class="time-left">' + sendTime + '</span>' +
+    '</div>' +
+    '</div>' +
+    '</div>';
+
+$("#display").append(messageHtml);
+}
+},
+error: function (response) {
+alert('An error occurred')
+}
+});
+}, 1000);
+});
+
+$(document).on('submit', '#post-form', function (e) {
+e.preventDefault();
+
+$.ajax({
+type: 'POST',
+url: '/send',
+data: {
+username: $('#username').val(),
+room_id: $('#room_id').val(),
+message: $('#message').val(),
+csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+},
+success: function (data) {
+//alert(data)
+}
+});
+document.getElementById('message').value = ''
+});
+</script>
+</body>
+</html>

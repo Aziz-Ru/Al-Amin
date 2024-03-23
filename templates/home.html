@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {
+  
+  font-family: Arial, sans-serif;
+  background-color: #f0f2f5; /* Facebook background color */
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff; /* White background */
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Box shadow */
+}
+
+.header {
+  background-color: #3b5998; /* Facebook blue */
+  color: #fff;
+  padding: 10px 20px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.form-container {
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.form-container label,
+.form-container input {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.form-container input[type=text],
+.form-container input[type=submit] {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.form-container input[type=submit] {
+  background-color: #3b5998; /* Facebook blue */
+  color: white;
+  border: none;
+  cursor: pointer;
+  padding: 8px 12px; /* Adjusted padding */
+  font-size: 14px; /* Adjusted font size */
+}
+
+.form-container input[type=submit]:hover {
+  background-color: #2d4373; /* Darker blue hover color */
+}
+
+</style>
+
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>Welcome to Our Chatting Application</h1>
+    </div>
+    <div class="form-container">
+        <form id="post-form" method="POST" action="checkview">
+            {% csrf_token %}
+            <label for="room_name">Your key</label>
+            <input type="text" id="room_name" name="room_name" />
+            <label for="username">Your Name</label>
+            <input type="text" id="username" name="username" />
+            <input type="submit" value="Enter">
+        </form>
+        <a href="{% url 'weather' %}">Weather Update</a>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather</title>
+    {% include 'homecss.html'%}
+  </head>
+  <body>
+    <header>
+      <h1>Weather Update</h1>
+    </header>
+    <div class="container">
+      <div class="data">
+        <form method="post" class="inputform">
+          {% csrf_token%}
+          <div class="inputdiv">
+            <label for="city" class="citylabel">Enter Your City Name</label>
+            <br />
+            <input type="text" class="inputCity" id="city" name="city" />
+            <button type="submit" class="btn">Submit</button>
+          </div>
+        </form>
+
+        <div class="weatherdata">
+          <span>Country/City Name: </span>
+          <span>{{city}}</span>
+        </div>
+        <div class="weatherdata">
+          <span>Temperature</span>
+          <span>{{temp}}</span>
+        </div>
+        <div class="weatherdata">
+          <span>Description</span>
+          <span>{{description}}</span>
+        </div>
+        <div class="weatherdata">
+          <span>Feels like</span>
+          <span>{{feels_like}}</span>
+        </div>
+        <div class="weatherdata">
+          <span>Humidity</span>
+          <span>{{humidity}}</span>
+        </div>
+        <div class="weatherdata">
+          <span>Minimum temperature</span>
+          <span>{{temp_min}}</span>
+        </div>
+        <div class="weatherdata">
+          <span>Maximum temperature</span>
+          <span>{{temp_max}}</span>
+        </div>
+        <div class="weatherdata">
+          <span>Clouds</span>
+          <span>{{clouds}}</span>
+        </div>
+        <div class="weatherdata">
+          <span>Wind</span>
+          <span>{{wind}}</span>
+        </div>
+        <div class="weatherdata">
+          <span>Country</span>
+          <span>{{country}}</span>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
